@@ -1,53 +1,69 @@
-# Billpad
+# React + TypeScript + Vite
 
-Smart expense tracking application with automatic spending detection and awareness.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Vision
-"The app that makes you realize where your money goes, without manual entry hassle"
+Currently, two official plugins are available:
 
-## Concept
-- Automatic expense import (bank CSV parsing)
-- AI-powered intelligent categorization  
-- "Screen time" style reports for your finances
-- Awareness alerts for micro-spending patterns
-- Web + mobile versions
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Key Features
-- Smart CSV bank import
-- Automatic expense categorization
-- Daily/Weekly/Monthly spending reports
-- Spending pattern alerts
-- Financial awareness insights
-- Secure and private (1 user = 1 account)
+## Expanding the ESLint configuration
 
-## Tech Stack
-- **Frontend**: React + TypeScript + Vite + Tailwind CSS
-- **Mobile**: React Native + Expo (upcoming)
-- **Backend**: Node.js + Express + PostgreSQL (upcoming)
-- **Storage**: LocalStorage → Cloud sync (roadmap)
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## Platforms
-- **Web App**: billpad.app (in development)
-- **Mobile**: Coming to App Store & Google Play
-- **Desktop**: PWA support
+```js
+export default tseslint.config([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-## Project Documentation
-- [Specifications](./CAHIER-DES-CHARGES.md)
-- [Detailed Plan](./PLAN-DETAILLE.md)  
-- [Progress Tracking](./PROGRESS.md)
+      // Remove tseslint.configs.recommended and replace with this
+      ...tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      ...tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      ...tseslint.configs.stylisticTypeChecked,
 
-## Project Goals
-- **Learning**: Master React, TypeScript, mobile development
-- **Portfolio**: Showcase full-stack development skills
-- **Real Impact**: Solve personal finance awareness problem
-- **Publication**: Deploy to app stores
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
-## Developer
-**[tdbucy](https://github.com/tdbucy)** - Learning project & portfolio piece
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-## Development Status
-**In Development** - Setting up foundation and core features
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
----
-
-*Billpad - Making financial awareness effortless*
+export default tseslint.config([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
